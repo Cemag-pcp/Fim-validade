@@ -171,9 +171,9 @@ for i in range(len(tabela2)):
         tabela_recursos_inseridos = tabela3[2]
         tabela_ordem = tabela3[5]
         tabela_fim = tabela3[8]
-        tabela_obs = tabela3[11]
-        tabela_qtd = tabela3[14]
-        tabela_deposito = tabela3[17]
+        # tabela_obs = tabela3[11]
+        # tabela_qtd = tabela3[14]
+        # tabela_deposito = tabela3[17]
         # --------------------------------------------------------- Tratamento tabelas Fim -------------------------------------------------------------
         time.sleep(1.5)
         input_localizar_recursos.send_keys(tabela_recursos_inseridos)
@@ -184,15 +184,24 @@ for i in range(len(tabela2)):
         # time.sleep(1.5)
         # nav.find_element(By.XPATH, '/html/body/table/tbody/tr[2]/td/div/form/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/thead/tr[3]/td[1]/table/tbody/tr[1]/td[4]/b')
         # time.sleep(1.5)
+
+
         if i == 0:
             WebDriverWait(nav,20).until(EC.presence_of_element_located((By.XPATH, '/html/body/table/tbody/tr[2]/td/div/form/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[1]/td[4]/div/div')))
             time.sleep(1)
             nav.find_element(By.XPATH, '/html/body/table/tbody/tr[2]/td/div/form/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[1]/td[4]/div/div').click()
             time.sleep(1.5)
-        WebDriverWait(nav,20).until(EC.presence_of_element_located((By.XPATH, '/html/body/table/tbody/tr[2]/td/div/form/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[13]/td[11]/div/div')))
-        time.sleep(1)
-        nav.find_element(By.XPATH, '/html/body/table/tbody/tr[2]/td/div/form/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[13]/td[11]/div/div').click()
-        time.sleep(1.5)
+    
+        input_localizar_recursos.click()
+    
+        # Não entendi o que isso faz #
+
+        # WebDriverWait(nav,20).until(EC.presence_of_element_located((By.XPATH, '/html/body/table/tbody/tr[2]/td/div/form/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[13]/td[11]/div/div')))
+        # time.sleep(1)
+        # nav.find_element(By.XPATH, '/html/body/table/tbody/tr[2]/td/div/form/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[13]/td[11]/div/div').click()
+        # time.sleep(1.5)
+    
+    
         # --------------------------------------------------------- Tratamento tabelas HTML Inicio-------------------------------------------------------------
         table = nav.find_element(By.XPATH,'/html/body/table/tbody/tr[2]/td/div/form/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table')
         table_html = table.get_attribute('outerHTML')
@@ -208,6 +217,7 @@ for i in range(len(tabela2)):
         df1 = df1.dropna(subset=['Ordem *'])
         df1 = df1.reset_index(drop=True)
         contagem = len(df1['Ordem *'])
+        df1['Recurso'] = df1['Recurso'].fillna(tabela_recursos_inseridos)
         df1 = df1[df1['Recurso'].str.contains(tabela_recursos_inseridos)]
         df1 = df1[df1['Fim Validade Técnica'].isnull()]
         df1.reset_index(inplace=True)
