@@ -101,8 +101,8 @@ input_localizar = nav.find_element(By.ID, 'grInputSearch_explorer')
 time.sleep(1.5)
 
 tabela2 = tabela.copy()
-tabela2 = tabela2.rename(columns={0: 'Código'})
-tabela2 = tabela2[tabela2['Código'].notnull() & (tabela2['Código'] != '')]
+tabela2 = tabela2.rename(columns={0: 'Código', 1:'Status'})
+tabela2 = tabela2[tabela2['Código'].notnull() & (tabela2['Código'] != '') & (tabela2['Status'] == '')]
 tabela2 = tabela2['Código']
 tabela2 = tabela2[2:]
 # Resetar o índice
@@ -185,7 +185,6 @@ for i in range(len(tabela2)):
         # nav.find_element(By.XPATH, '/html/body/table/tbody/tr[2]/td/div/form/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/thead/tr[3]/td[1]/table/tbody/tr[1]/td[4]/b')
         # time.sleep(1.5)
 
-
         if i == 0:
             WebDriverWait(nav,20).until(EC.presence_of_element_located((By.XPATH, '/html/body/table/tbody/tr[2]/td/div/form/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[15]/td/table/tbody/tr/td[1]/table/tbody/tr/td[1]/div/table/tbody/tr[1]/td[1]/table/tbody/tr[1]/td[4]/div/div')))
             time.sleep(1)
@@ -223,8 +222,8 @@ for i in range(len(tabela2)):
         df1.reset_index(inplace=True)
         # --------------------------------------------------------- Tratamento tabelas HTML Fim------------------------------------------------------------
         time.sleep(1.5)
-        for i in range(len(df1)):
-            indice = df1['index'][i]
+        for i2 in range(len(df1)):
+            indice = df1['index'][i2]
             time.sleep(1.5)
             WebDriverWait(nav,20).until(EC.presence_of_element_located((By.XPATH, '//*[@id="'+ str(indice) +'"]/td[10]/div/div')))
             time.sleep(1)
@@ -243,6 +242,9 @@ for i in range(len(tabela2)):
                     print('Carregando...')
             except:
                 print('Carregou')
+
+    wks1.update('B' + str(i+3), 'Ok')
+
 time.sleep(1)
 WebDriverWait(nav,20).until(EC.presence_of_element_located((By.XPATH,'/html/body/table/tbody/tr[2]/td/div/form/table/thead/tr[3]/td[1]/table/tbody/tr[1]/td[1]')))
 time.sleep(1)
